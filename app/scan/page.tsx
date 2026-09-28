@@ -68,7 +68,8 @@ export default function ScanPage() {
     if (!form.name.trim()) { alert("يرجى كتابة اسم الموكل"); return; }
     setStep("saving");
     try {
-      const blob=(await fetch(img!)).blob ? await (await fetch(img!)).blob() : new Blob();
+      const response = await fetch(img!);
+      const blob = await response.blob();
       const {uploadScanImage,addAttorney}=await import("@/lib/firestore");
       const {url,fileName}=await uploadScanImage(blob, form.name.trim());
       await addAttorney({...form, imageUrl:url, fileName});
